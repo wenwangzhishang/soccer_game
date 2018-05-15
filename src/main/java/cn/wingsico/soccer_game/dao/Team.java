@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @Data
 @ToString(exclude = "players")
 @EqualsAndHashCode(exclude = "players")
+@Entity
 public class Team {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
