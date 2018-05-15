@@ -29,6 +29,15 @@ public class Utils {
   }
 
   public static String getRandomTeamName() {
-    return (getRandomCharacter() + getRandomCharacter() + getRandomCharacter() + "").toUpperCase();
+    String teamName = "";
+    teamName += getRandomCharacter();
+    teamName += getRandomCharacter();
+    teamName += getRandomCharacter();
+    return teamName.toUpperCase();
+  }
+
+  public static String getRandomSex() {
+    Integer sexNumber = random.nextInt(2);
+    return sexNumber == 1 ? "male" : "female";
   }
 }
