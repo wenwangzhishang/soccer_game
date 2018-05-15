@@ -40,15 +40,43 @@ public class FakeMockGenerator {
 
     logger.info("正在初始化数据库...");
 
+    generateTeam();
 
+    generatePlayer();
 
+    logger.info("数据库初始化完成");
   }
 
   @Transactional
   protected void generateTeam() {
     for (int i = 0; i < 72; ++i) {
       Team team = new Team();
+      team.setName(Utils.getRandomTeamName());
+      team.setId(i);
+      team.setType(i / 12 + 1);
 
+      teams.add(team);
+      teamRepo.save(team);
+    }
+  }
+
+  @Transactional
+  protected  void generatePlayer() {
+    for (int i = 0; i < 72; ++i) {
+      Team team = teams.get(i);
+      for (int j = 0; j < 11; ++j) {
+        Player player = new Player();
+        String sex = (i / 12 + 1) == 2 ? "f" : "m";
+
+        player.setId((i+1) * (j+1));
+        player.setSex(sex);
+        player.setName(Utils.getRandomName(sex));
+        team.getPlayers().add(player);
+
+        players.add(player);
+
+        playerRepo.save(player);
+      }
     }
   }
 }
