@@ -1,4 +1,6 @@
 package cn.wingsico.soccer_game.dao;
 
-public interface PitchRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PitchRepo extends JpaRepository<Pitch, Integer> {
 }
