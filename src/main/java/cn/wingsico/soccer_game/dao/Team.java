@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 public class Team {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   private String name;
