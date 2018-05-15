@@ -28,7 +28,7 @@ public class FakeMockGenerator {
   }
 
   @Transactional
-  public void run() throws Exception {
+  public void run() {
     logger.info("正在初始化mock数据...");
 
     boolean isNeedToGenerate = teamRepo.count() == 0;
