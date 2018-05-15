@@ -23,4 +23,12 @@ public class Utils {
 
     return firstName;
   }
+
+  public static Character getRandomCharacter() {
+    return (char)(97 + random.nextInt(26));
+  }
+
+  public static String getRandomTeamName() {
+    return (getRandomCharacter() + getRandomCharacter() + getRandomCharacter() + "").toUpperCase();
+  }
 }
