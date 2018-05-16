@@ -15,6 +15,8 @@ public class Pitch {
 
   private String name;
 
+  private boolean register;
+
   @OneToOne
   private Judge judge;
 

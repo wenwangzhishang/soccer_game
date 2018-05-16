@@ -3,6 +3,8 @@ package cn.wingsico.soccer_game.controllers;
 import cn.wingsico.soccer_game.Utils;
 import cn.wingsico.soccer_game.dao.*;
 import cn.wingsico.soccer_game.services.JudgeService;
+import cn.wingsico.soccer_game.services.PitchService;
+import cn.wingsico.soccer_game.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,14 +20,18 @@ public class Main {
   private final PitchRepo pitchRepo;
 
   private JudgeService judgeService;
+  private TeamService teamService;
+  private PitchService pitchService;
 
   @Autowired
-  Main(PlayerRepo playerRepo, TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo, JudgeService judgeService) {
+  Main(PlayerRepo playerRepo, TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo, JudgeService judgeService, PitchService pitchService, TeamService teamService) {
     this.judgeRepo = judgeRepo;
     this.pitchRepo = pitchRepo;
     this.teamRepo = teamRepo;
     this.playerRepo = playerRepo;
     this.judgeService = judgeService;
+    this.pitchService = pitchService;
+    this.teamService = teamService;
   }
 
   /**
@@ -34,7 +40,7 @@ public class Main {
    */
   @GetMapping(value = "/teams")
   public List<Team> getTeamList() {
-    return teamRepo.findAll();
+    return teamService.findAll();
   }
 
   /**
@@ -52,7 +58,7 @@ public class Main {
    */
   @GetMapping(value = "/pitches")
   public List<Pitch> getPitchList() {
-    return pitchRepo.findAll();
+    return pitchService.findAll();
   }
 
   /**
@@ -64,9 +70,33 @@ public class Main {
     return judgeService.findAll();
   }
 
+  /**
+   * 登记所有裁判
+   * @return void
+   */
   @PutMapping(value = "/judges")
   public ResMessage registerJudges() {
     judgeService.register();
+    return Utils.potResMessage(1, "ok");
+  }
+
+  /**
+   * 登记所有裁判
+   * @return void
+   */
+  @PutMapping(value = "/teams")
+  public ResMessage registerTeams() {
+    teamService.register();
+    return Utils.potResMessage(1, "ok");
+  }
+
+  /**
+   * 登记所有裁判
+   * @return void
+   */
+  @PutMapping(value = "/pitches")
+  public ResMessage registerPitches() {
+    pitchService.register();
     return Utils.potResMessage(1, "ok");
   }
 
