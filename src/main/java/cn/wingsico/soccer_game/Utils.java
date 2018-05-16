@@ -50,4 +50,24 @@ public class Utils {
     res.setMessage(message);
     return res;
   }
+
+  public static Integer getRandomShotCount () {
+    Random random = new Random();
+    Integer points = random.nextInt(100);
+    Integer count = 0;
+
+    if (points < 15) {
+      count++;
+      if (points > 11) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  public static Integer getRandomDuration () {
+    Random random = new Random();
+    return 93 + random.nextInt(6);
+  }
 }

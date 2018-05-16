@@ -28,9 +28,8 @@ html, body {
   PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
 }
 </style>

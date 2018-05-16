@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 @Component
 @Order(value = 1)
@@ -18,18 +21,24 @@ public class FakeMockGenerator implements CommandLineRunner {
   private final TeamRepo teamRepo;
   private final JudgeRepo judgeRepo;
   private final PitchRepo pitchRepo;
+  private final MatchRepo matchRepo;
+  private final ShotResultRepo shotResultRepo;
+  private final MatchResultMessageRepo matchResultMessageRepo;
   private final Logger logger;
   private ArrayList<Team> teams = new ArrayList<>();
   private ArrayList<Player> players = new ArrayList<>();
   private ArrayList<Pitch> pitches = new ArrayList<>();
 
   @Autowired
-  FakeMockGenerator(PlayerRepo playerRepo, TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo) {
+  FakeMockGenerator(PlayerRepo playerRepo, TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo, MatchRepo matchRepo, ShotResultRepo shotResultRepo, MatchResultMessageRepo matchResultMessageRepo) {
     this.playerRepo = playerRepo;
     this.teamRepo = teamRepo;
     this.logger = LoggerFactory.getLogger(getClass());
     this.judgeRepo = judgeRepo;
     this.pitchRepo = pitchRepo;
+    this.matchRepo = matchRepo;
+    this.shotResultRepo = shotResultRepo;
+    this.matchResultMessageRepo = matchResultMessageRepo;
   }
 
   @Transactional
@@ -51,6 +60,8 @@ public class FakeMockGenerator implements CommandLineRunner {
     generatePlayer();
 
     generatePatch();
+
+    generateMatch();
 
     logger.info("数据库初始化完成");
   }
@@ -111,4 +122,104 @@ public class FakeMockGenerator implements CommandLineRunner {
     judgeRepo.save(judge);
     return judge;
   }
+
+  private ArrayList<Pitch> getDoublePitches() {
+    ArrayList<Pitch> arrayList = new ArrayList<>(pitches);
+    arrayList.addAll(pitches);
+
+    return arrayList;
+  }
+
+  private void generateMatch() {
+    Random random = new Random();
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.YEAR, 2018);
+    calendar.set(Calendar.MONTH, 4);
+    calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+    Integer pitchRemaining = 36;
+
+    ArrayList<Pitch> doublePitches = getDoublePitches();
+
+    // todo : generate fake match records
+    for (int i = 1; i <= 4; ++i) {
+      ArrayList<Team> teams = new ArrayList<>(teamRepo.findTeamByType(i));
+
+      for (int j = 0; j < teams.size(); ++j) {
+        for (int k = j + 1; k < teams.size(); ++k) {
+          if (pitchRemaining == 0) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+            pitchRemaining = 36;
+            doublePitches= getDoublePitches();
+          }
+
+          Team team1 = teams.get(j);
+          Team team2 = teams.get(k);
+
+          Pitch pitch = doublePitches.get(random.nextInt(pitchRemaining));
+          doublePitches.remove(pitch);
+          pitchRemaining--;
+
+          Match match = new Match();
+          match.setPitch(pitch);
+          match.setTeam1(team1);
+          match.setTeam2(team2);
+          match.setHoldDate(new java.sql.Date(calendar.getTimeInMillis()));
+
+          MatchResultMessage matchResult = generateMatchResult(match);
+          match.setMatchResultMessage(matchResult);
+
+          matchRepo.save(match);
+        }
+      }
+    }
+  }
+
+  private MatchResultMessage generateMatchResult(Match match) {
+    Random random = new Random();
+
+    MatchResultMessage matchResultMessage = new MatchResultMessage();
+    matchResultMessageRepo.save(matchResultMessage);
+
+    Team team1 = match.getTeam1();
+    Team team2 = match.getTeam2();
+
+    Integer totalCount1 = generateShotResult(team1, matchResultMessage);
+    Integer totalCount2 = generateShotResult(team2, matchResultMessage);
+
+    if (totalCount1 > totalCount2) {
+      matchResultMessage.setMatchResult(MatchResultMessage.MatchResult.WIN);
+    } else if (totalCount1.equals(totalCount2)) {
+      matchResultMessage.setMatchResult(MatchResultMessage.MatchResult.DRAW);
+    } else {
+      matchResultMessage.setMatchResult(MatchResultMessage.MatchResult.LOSE);
+    }
+
+    matchResultMessage.setDuration(Utils.getRandomDuration());
+    matchResultMessageRepo.save(matchResultMessage);
+
+    return matchResultMessage;
+  }
+
+  private Integer generateShotResult(Team team, MatchResultMessage matchResultMessage) {
+    List<Player> players = playerRepo.findPlayersByTeam(team);
+    Integer totalCount = 0;
+
+    for (Player player:players) {
+      ShotResult shotResult = new ShotResult();
+      shotResult.setPlayer(player);
+      shotResult.setMatchResultMessage(matchResultMessage);
+
+      Integer count = Utils.getRandomShotCount();
+      totalCount += count;
+
+      shotResult.setShotCount(count);
+      matchResultMessage.getShotResults().add(shotResult);
+
+      shotResultRepo.save(shotResult);
+    }
+
+    return totalCount;
+  }
+
 }

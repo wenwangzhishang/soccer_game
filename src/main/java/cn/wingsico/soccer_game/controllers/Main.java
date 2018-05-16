@@ -77,27 +77,27 @@ public class Main {
   @PutMapping(value = "/judges")
   public ResMessage registerJudges() {
     judgeService.register();
-    return Utils.potResMessage(1, "ok");
+    return Utils.potResMessage(1, "judges: ok");
   }
 
   /**
-   * 登记所有裁判
+   * 登记所有队伍
    * @return void
    */
   @PutMapping(value = "/teams")
   public ResMessage registerTeams() {
     teamService.register();
-    return Utils.potResMessage(1, "ok");
+    return Utils.potResMessage(1, "teams: ok");
   }
 
   /**
-   * 登记所有裁判
+   * 登记所有场地
    * @return void
    */
   @PutMapping(value = "/pitches")
   public ResMessage registerPitches() {
     pitchService.register();
-    return Utils.potResMessage(1, "ok");
+    return Utils.potResMessage(1, "pitches: ok");
   }
 
 

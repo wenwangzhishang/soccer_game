@@ -27,11 +27,12 @@ public class Player {
   @ManyToOne(fetch = FetchType.EAGER)
   @JsonSerialize(using = PlayerResponse.class)
   private Team team;
-}
 
-final class PlayerResponse extends JsonSerializer<Team>{
-  @Override
-  public void serialize(Team team, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException, JsonProcessingException {
-    jsonGenerator.writeString(team.getName());
+  static final class PlayerResponse extends JsonSerializer<Team>{
+    @Override
+    public void serialize(Team team, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException, JsonProcessingException {
+      jsonGenerator.writeString(team.getName());
+    }
   }
 }
+

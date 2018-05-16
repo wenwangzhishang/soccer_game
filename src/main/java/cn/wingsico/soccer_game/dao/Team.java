@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @ToString(exclude = "players")
-@EqualsAndHashCode(exclude = {"players", "register", "name", "type"})
+@EqualsAndHashCode(exclude = {"players", "register", "name"})
 @Entity
 public class Team {
   @Id
