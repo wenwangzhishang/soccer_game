@@ -3,7 +3,6 @@ package cn.wingsico.soccer_game.controllers;
 import cn.wingsico.soccer_game.Utils;
 import cn.wingsico.soccer_game.dao.*;
 import cn.wingsico.soccer_game.services.JudgeService;
-import cn.wingsico.soccer_game.services.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
