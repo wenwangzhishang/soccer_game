@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @ToString(exclude = "players")
-@EqualsAndHashCode(exclude = "players")
+@EqualsAndHashCode(exclude = {"players", "register", "name", "type"})
 @Entity
 public class Team {
   @Id
@@ -19,6 +19,7 @@ public class Team {
 
   private String name;
   private Integer type;
+  private boolean register = false;
 
   @OneToMany(mappedBy = "team")
   private Set<Player> players = new HashSet<>();

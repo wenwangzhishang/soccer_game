@@ -78,7 +78,7 @@ export default {};
         z-index: -1;
         top: -80px;
         width: 100%;
-        height: 300px;
+        height: 420px;
         background: #fff;
         box-shadow: 0 -4px 30px 0 #dfe1e6;
         transform: skewY(-4deg);

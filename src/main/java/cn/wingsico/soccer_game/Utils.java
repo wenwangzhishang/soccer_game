@@ -1,5 +1,8 @@
 package cn.wingsico.soccer_game;
 
+import cn.wingsico.soccer_game.dao.ResMessage;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class Utils {
@@ -39,5 +42,12 @@ public class Utils {
   public static String getRandomSex() {
     Integer sexNumber = random.nextInt(2);
     return sexNumber == 1 ? "male" : "female";
+  }
+
+  public static ResMessage potResMessage(Integer status, String message) {
+    ResMessage res = new ResMessage();
+    res.setStatus(status);
+    res.setMessage(message);
+    return res;
   }
 }

@@ -14,8 +14,8 @@ export default new Router({
       component: Index,
     },
     {
-      path: '/console',
-      name: 'console',
+      path: '/manager',
+      name: 'manager',
       component: Manager,
     },
   ],
