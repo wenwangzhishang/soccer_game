@@ -21,6 +21,6 @@ public class Team {
   private Integer type;
   private boolean register = false;
 
-  @OneToMany(mappedBy = "team")
+  @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
   private Set<Player> players = new HashSet<>();
 }

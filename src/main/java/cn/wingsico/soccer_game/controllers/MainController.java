@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class Main {
+public class MainController {
   private final PlayerRepo playerRepo;
-  private final TeamRepo teamRepo;
-  private final JudgeRepo judgeRepo;
-  private final PitchRepo pitchRepo;
+//  private final TeamRepo teamRepo;
+//  private final JudgeRepo judgeRepo;
+//  private final PitchRepo pitchRepo;
 
   private JudgeService judgeService;
   private TeamService teamService;
   private PitchService pitchService;
 
   @Autowired
-  Main(PlayerRepo playerRepo, TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo, JudgeService judgeService, PitchService pitchService, TeamService teamService) {
-    this.judgeRepo = judgeRepo;
-    this.pitchRepo = pitchRepo;
-    this.teamRepo = teamRepo;
+  MainController(PlayerRepo playerRepo, /* TeamRepo teamRepo, JudgeRepo judgeRepo, PitchRepo pitchRepo, */ JudgeService judgeService, PitchService pitchService, TeamService teamService) {
+//    this.judgeRepo = judgeRepo;
+//    this.pitchRepo = pitchRepo;
+//    this.teamRepo = teamRepo;
     this.playerRepo = playerRepo;
     this.judgeService = judgeService;
     this.pitchService = pitchService;

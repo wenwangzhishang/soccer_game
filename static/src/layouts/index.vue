@@ -30,12 +30,14 @@ export default {};
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 250px;
+  margin-top: 150px;
 
   .main {
     text-align: center;
     padding: 0;
     overflow: inherit;
+    position relative
+    top: 100px;
 
     .container-intro__group {
       width: 100%;
@@ -56,12 +58,20 @@ export default {};
 
     .container-start__group {
       margin-top: 180px;
-      position: relative;
-
+      position: absolute;
+      height 200px;
+      top: 180px;
+      width: 100%;
+      background-color #fff;
+      align-items: center;
+      justify-content: center;
+      display flex;
       .button__group {
         padding: 20px;
         align-items: center;
         justify-content: center;
+        position absolute;
+        top 20px;
 
         .el-button {
           margin: 0 50px;
@@ -78,7 +88,7 @@ export default {};
         z-index: -1;
         top: -80px;
         width: 100%;
-        height: 420px;
+        height: 200px;
         background: #fff;
         box-shadow: 0 -4px 30px 0 #dfe1e6;
         transform: skewY(-4deg);

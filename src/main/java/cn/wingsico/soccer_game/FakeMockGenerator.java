@@ -99,7 +99,7 @@ public class FakeMockGenerator implements CommandLineRunner {
   }
 
   private void generatePatch() {
-    for (int i = 0; i < 18; ++i) {
+    for (int i = 0; i < 12; ++i) {
       Pitch pitch = new Pitch();
       pitch.setName("Pitch " + (i + 1));
       pitch.setJudge(generateJudge(1));
@@ -132,25 +132,21 @@ public class FakeMockGenerator implements CommandLineRunner {
 
   private void generateMatch() {
     Random random = new Random();
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.YEAR, 2018);
-    calendar.set(Calendar.MONTH, 4);
-    calendar.set(Calendar.DAY_OF_MONTH, 1);
-
-    Integer pitchRemaining = 36;
+    Integer matchType = 0;
+    Integer holdDay = 1;
+    Integer pitchRemaining = 24;
 
     ArrayList<Pitch> doublePitches = getDoublePitches();
 
-    // todo : generate fake match records
     for (int i = 1; i <= 4; ++i) {
       ArrayList<Team> teams = new ArrayList<>(teamRepo.findTeamByType(i));
 
       for (int j = 0; j < teams.size(); ++j) {
         for (int k = j + 1; k < teams.size(); ++k) {
           if (pitchRemaining == 0) {
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
-            pitchRemaining = 36;
-            doublePitches= getDoublePitches();
+            pitchRemaining = 24;
+            doublePitches = getDoublePitches();
+            holdDay++;
           }
 
           Team team1 = teams.get(j);
@@ -164,7 +160,8 @@ public class FakeMockGenerator implements CommandLineRunner {
           match.setPitch(pitch);
           match.setTeam1(team1);
           match.setTeam2(team2);
-          match.setHoldDate(new java.sql.Date(calendar.getTimeInMillis()));
+          match.setHoldDay(holdDay);
+          match.setType(matchType);
 
           MatchResultMessage matchResult = generateMatchResult(match);
           match.setMatchResultMessage(matchResult);
@@ -176,8 +173,6 @@ public class FakeMockGenerator implements CommandLineRunner {
   }
 
   private MatchResultMessage generateMatchResult(Match match) {
-    Random random = new Random();
-
     MatchResultMessage matchResultMessage = new MatchResultMessage();
     matchResultMessageRepo.save(matchResultMessage);
 
